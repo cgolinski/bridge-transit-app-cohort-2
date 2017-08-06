@@ -1,13 +1,16 @@
 import { ACTION_TYPES } from '../../constants/ActionTypes';
-import Immutable from 'immutable';
+import Immutable, {Map, List} from 'immutable';
 
-/*const DEFAULT_STATE = {
+//Old code
+/*
+const DEFAULT_STATE = {
   isFetching: false,
   didInvalidate: false,
   categories: [],
   searchKeyword: '',
   chosenCategory: null,
-};*/
+};
+*/
 
 const DEFAULT_STATE = Immutable.fromJS({
   isFetching: false,
@@ -16,6 +19,17 @@ const DEFAULT_STATE = Immutable.fromJS({
   searchKeyword: '',
   chosenCategory: null,
 });
+
+//Another way to write this:
+/*
+const DEFAULT_STATE = Map({
+  isFetching: false,
+  didInvalidate: false,
+  categories: List(),
+  searchKeyword: '',
+  chosenCategory: null,
+});
+*/
 
 export const categoryReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
@@ -35,7 +49,9 @@ export const categoryReducer = (state = DEFAULT_STATE, action) => {
     }
 }
 
-/*export const categoryReducer = (state = DEFAULT_STATE, action) => {
+//Old code
+/*
+export const categoryReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case ACTION_TYPES.GET_CATEGORIES:
       return {
@@ -58,4 +74,5 @@ export const categoryReducer = (state = DEFAULT_STATE, action) => {
       default:
         return state;
     }
-}*/
+}
+*/
