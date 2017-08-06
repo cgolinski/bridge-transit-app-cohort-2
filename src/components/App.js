@@ -19,10 +19,16 @@ class App extends Component {
 
     // this connects props to children (for example, CategoriesList)
     const childrenWithProps = React.cloneElement(this.props.children, {...this.props});
+    let obj1 = {a: 1, b: 2, c: 3};
+    let obj2 = obj1;
+    obj1 = {...obj1, a: 1};
 
     return (
       <div className="App">
         {this.props.displayAddressWindow ? <AddressWindow {...this.props} /> : null}
+        {console.log('obj1',obj1)}
+        {console.log('obj2',obj2)}
+        {console.log('obj1 === obj2',obj1 === obj2)}
         <div className="App-header">
           <Address {...this.props} />
           <h1 className="header-catch-phrase">Never miss the next event</h1>
@@ -44,19 +50,23 @@ class App extends Component {
 
 const connectConfig = connect(state => ({
   searchInput: state.searchInput,
-  searchKeyword: state.category.searchKeyword,
-  allCategories: state.category.categories,
-  selectedCategories: state.category.categories 
-    ? state.category.categories.filter(category => 
-      category.name.toLowerCase().includes(state.category.searchKeyword.toLowerCase())) 
-    : null,
-  chosenCategory: state.category.chosenCategory,
+  searchKeyword: state.category.get('searchKeyword'),
+  allCategories: state.category.get('categories').toJS(),
+  selectedCategories: state.category.get('categories').toJS().length > 0 
+  ? state.category.get('categories').toJS().filter(category => {
+      console.log('category.name', category.name.toLowerCase()); 
+      return category.name.toLowerCase().includes(state.category.get('searchKeyword').toLowerCase());
+    })
+  : null,
+  chosenCategory: state.category.get('chosenCategory') 
+  ? state.category.get('chosenCategory').toJS()
+  : null,
   events: state.events.events,
   addresses: state.address.addresses,
   selectedAddress: state.address.selectedAddress,
   savedAddress: state.address.savedAddress,
   addressSearchInput: state.address.addressSearchInput,
-  displayAddressWindow: state.address.displayAddressWindow
+  displayAddressWindow: state.address.displayAddressWindow,
 }), {
   inputChange,
   setSearchKeyword,

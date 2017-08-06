@@ -1,31 +1,61 @@
 import { ACTION_TYPES } from '../../constants/ActionTypes';
+import Immutable from 'immutable';
 
-const DEFAULT_STATE = {
+/*const DEFAULT_STATE = {
   isFetching: false,
   didInvalidate: false,
   categories: [],
   searchKeyword: '',
   chosenCategory: null,
-};
+};*/
+
+const DEFAULT_STATE = Immutable.fromJS({
+  isFetching: false,
+  didInvalidate: false,
+  categories: [],
+  searchKeyword: '',
+  chosenCategory: null,
+});
 
 export const categoryReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case ACTION_TYPES.GET_CATEGORIES:
-      return Object.assign({}, state, {
-        isFetching: true,
-      });
+      return state.set('isFetching', true);
     case ACTION_TYPES.SET_CATEGORIES:
-      return Object.assign({}, state, {
+      return state.merge({
+        isFetching: false,
+        didInvalidate: false,
+        categories: Immutable.fromJS(action.payload.categories),
+        chosenCategory: Immutable.fromJS(action.payload.categories[0]),
+      });
+    case ACTION_TYPES.SET_SEARCH_KEYWORD:
+      return state.set('searchKeyword', Immutable.fromJS(action.payload));
+    default:
+      return state;
+    }
+}
+
+/*export const categoryReducer = (state = DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case ACTION_TYPES.GET_CATEGORIES:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case ACTION_TYPES.SET_CATEGORIES:
+      return {
+        ...state,
         isFetching: false,
         didInvalidate: false,
         categories: action.payload.categories,
         chosenCategory: action.payload.categories[0],
-      });
+      };
     case ACTION_TYPES.SET_SEARCH_KEYWORD:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         searchKeyword: action.payload,
-      });
+      };
       default:
         return state;
     }
-}
+}*/

@@ -8,6 +8,7 @@
     "enzyme": "^2.9.1",
     "express": "^4.15.3",
     "helmet": "^3.6.1",
+    "immutable": "^3.8.1",
     "node-sass-chokidar": "0.0.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
