@@ -53,10 +53,8 @@ const connectConfig = connect(state => ({
   searchKeyword: state.category.get('searchKeyword'),
   allCategories: state.category.get('categories').toJS(),
   selectedCategories: state.category.get('categories').toJS().length > 0 
-  ? state.category.get('categories').toJS().filter(category => {
-      console.log('category.name', category.name.toLowerCase()); 
-      return category.name.toLowerCase().includes(state.category.get('searchKeyword').toLowerCase());
-    })
+  ? state.category.get('categories').toJS().filter(category =>
+      category.name.toLowerCase().includes(state.category.get('searchKeyword').toLowerCase()))
   : null,
   chosenCategory: state.category.get('chosenCategory') 
   ? state.category.get('chosenCategory').toJS()
